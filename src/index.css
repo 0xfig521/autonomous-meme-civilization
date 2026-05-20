@@ -1,0 +1,66 @@
+:root {
+  --bg: #05080d;
+  --surface: #0c121c;
+  --line: rgba(255, 255, 255, 0.14);
+  --text: #d9e6e7;
+  --muted: #8da2a8;
+  --heading: #f8fbef;
+  --aqua: #75ffda;
+  --shadow: 0 22px 80px rgba(0, 0, 0, 0.36);
+  --display: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  --body: "Avenir Next", "Trebuchet MS", Verdana, sans-serif;
+  --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-family: var(--body);
+  color: var(--text);
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    radial-gradient(circle at 15% 18%, rgba(117, 255, 218, 0.16), transparent 27%),
+    radial-gradient(circle at 85% 8%, rgba(255, 107, 74, 0.14), transparent 26%), var(--bg);
+  background-size:
+    28px 28px,
+    28px 28px,
+    auto,
+    auto,
+    auto;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100svh;
+  margin: 0;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 5px),
+    linear-gradient(180deg, transparent, rgba(5, 8, 13, 0.78));
+  opacity: 0.36;
+  pointer-events: none;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+::selection {
+  color: #061017;
+  background: var(--aqua);
+}

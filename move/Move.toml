@@ -1,0 +1,5 @@
+[package]
+name = "autonomous_meme_civilization"
+edition = "2024"
+
+[dependencies]

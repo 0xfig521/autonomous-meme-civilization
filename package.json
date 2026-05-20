@@ -1,0 +1,43 @@
+{
+  "name": "autonomous-meme-civilization",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vp dev",
+    "build": "tsc -b && vp build",
+    "lint": "vp lint .",
+    "test": "vitest",
+    "move:build": "sui move build --path move",
+    "move:publish": "sui client publish move --gas-budget 100000000",
+    "preview": "vp preview",
+    "prepare": "vp config"
+  },
+  "dependencies": {
+    "@ai-sdk/react": "^3.0.184",
+    "@mysten/dapp-kit-react": "^2.0.3",
+    "@mysten/sui": "^2.16.2",
+    "@mysten/walrus": "^1.0.2",
+    "@tanstack/react-query": "^5.100.10",
+    "ai": "^6.0.182",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "sonner": "^2.0.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.12.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.6.0",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.59.2",
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
+    "vitest": "^3.0.0"
+  },
+  "packageManager": "pnpm@11.1.1"
+}

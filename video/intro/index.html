@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #05080d;
+        color: #f8fbef;
+        font-family: "Avenir Next", "Trebuchet MS", Verdana, sans-serif;
+      }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 18% 20%, rgba(117, 255, 218, 0.2), transparent 25%),
+          radial-gradient(circle at 82% 16%, rgba(255, 107, 74, 0.16), transparent 24%),
+          linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px), #05080d;
+        background-size:
+          auto,
+          auto,
+          40px 40px,
+          40px 40px,
+          auto;
+      }
+
+      #root::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 6px),
+          linear-gradient(180deg, transparent, rgba(5, 8, 13, 0.72));
+        opacity: 0.34;
+        pointer-events: none;
+      }
+
+      .clip {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+
+      .scene {
+        padding: 86px 96px;
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      #scene-hero {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        color: #75ffda;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 24px;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 14px;
+        height: 14px;
+        border-radius: 999px;
+        background: currentColor;
+        box-shadow: 0 0 32px currentColor;
+      }
+
+      .display {
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+        font-weight: 900;
+        line-height: 0.88;
+        text-transform: uppercase;
+      }
+
+      .hero-title {
+        width: 1220px;
+        margin-top: 28px;
+        font-size: 142px;
+      }
+
+      .hero-copy {
+        width: 900px;
+        margin-top: 36px;
+        color: #a8bcc0;
+        font-size: 35px;
+        line-height: 1.28;
+      }
+
+      .subtitle {
+        position: absolute;
+        left: 96px;
+        bottom: 84px;
+        color: #f8d65f;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 28px;
+        text-transform: uppercase;
+      }
+
+      .planet {
+        position: absolute;
+        right: 110px;
+        top: 170px;
+        width: 470px;
+        height: 470px;
+        border: 2px solid rgba(117, 255, 218, 0.5);
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 38% 32%, rgba(117, 255, 218, 0.45), transparent 26%),
+          radial-gradient(circle at 62% 68%, rgba(255, 107, 74, 0.3), transparent 24%),
+          rgba(255, 255, 255, 0.03);
+        box-shadow:
+          inset 0 0 80px rgba(117, 255, 218, 0.16),
+          0 0 90px rgba(117, 255, 218, 0.22);
+      }
+
+      .node {
+        position: absolute;
+        display: grid;
+        place-items: center;
+        width: 128px;
+        height: 70px;
+        border: 1px solid rgba(117, 255, 218, 0.75);
+        border-radius: 8px;
+        background: rgba(117, 255, 218, 0.12);
+        color: #f8fbef;
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+        font-size: 36px;
+        box-shadow: 0 0 48px rgba(117, 255, 218, 0.24);
+      }
+
+      .node:nth-child(1) {
+        left: 70px;
+        top: 130px;
+      }
+
+      .node:nth-child(2) {
+        right: 48px;
+        top: 220px;
+        border-color: rgba(248, 214, 95, 0.75);
+        background: rgba(248, 214, 95, 0.12);
+      }
+
+      .node:nth-child(3) {
+        left: 190px;
+        bottom: 80px;
+        border-color: rgba(255, 107, 74, 0.75);
+        background: rgba(255, 107, 74, 0.12);
+      }
+
+      .panel {
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 8px;
+        background: linear-gradient(145deg, rgba(12, 18, 28, 0.9), rgba(7, 10, 17, 0.84));
+        box-shadow: 0 24px 90px rgba(0, 0, 0, 0.34);
+      }
+
+      .loop-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 26px;
+        margin-top: 66px;
+      }
+
+      .loop-card {
+        min-height: 300px;
+        padding: 34px;
+      }
+
+      .loop-card strong {
+        display: block;
+        color: #75ffda;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 24px;
+      }
+
+      .loop-card h2 {
+        margin-top: 24px;
+        font-size: 54px;
+      }
+
+      .loop-card p {
+        margin-top: 22px;
+        color: #a8bcc0;
+        font-size: 27px;
+        line-height: 1.32;
+      }
+
+      .world-layout {
+        display: grid;
+        grid-template-columns: 1.25fr 0.75fr;
+        gap: 34px;
+        margin-top: 48px;
+      }
+
+      .map {
+        position: relative;
+        height: 620px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 8px;
+        background:
+          radial-gradient(circle at 34% 47%, rgba(117, 255, 218, 0.18), transparent 28%),
+          radial-gradient(circle at 71% 67%, rgba(255, 107, 74, 0.18), transparent 24%), #071016;
+      }
+
+      .map::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+        background-size: 58px 58px;
+      }
+
+      .map-token {
+        position: absolute;
+        display: grid;
+        place-items: center;
+        min-width: 160px;
+        height: 82px;
+        border: 1px solid currentColor;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.06);
+        color: #75ffda;
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+        font-size: 45px;
+        box-shadow: 0 0 50px currentColor;
+      }
+
+      .candle {
+        left: 270px;
+        top: 310px;
+      }
+
+      .meow {
+        right: 250px;
+        top: 180px;
+        color: #f8d65f;
+      }
+
+      .bark {
+        right: 120px;
+        bottom: 150px;
+        color: #ff6b4a;
+      }
+
+      .feed {
+        height: 620px;
+        padding: 28px;
+      }
+
+      .event {
+        padding: 22px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .event span {
+        color: #75ffda;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 20px;
+      }
+
+      .event h3 {
+        margin-top: 10px;
+        font-size: 30px;
+      }
+
+      .event p {
+        margin-top: 8px;
+        color: #a8bcc0;
+        font-size: 22px;
+      }
+
+      .war-board {
+        display: grid;
+        grid-template-columns: 1fr 180px 1fr;
+        gap: 30px;
+        align-items: center;
+        margin-top: 44px;
+      }
+
+      .combatant {
+        min-height: 360px;
+        padding: 34px;
+        display: grid;
+        align-content: space-between;
+      }
+
+      .combatant h2 {
+        font-size: 76px;
+      }
+
+      .combatant p {
+        color: #a8bcc0;
+        font-size: 25px;
+        line-height: 1.32;
+      }
+
+      .score {
+        color: #75ffda;
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+        font-size: 104px;
+      }
+
+      .versus {
+        color: #ff6b4a;
+        font-size: 80px;
+        text-align: center;
+      }
+
+      .stack {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 28px;
+        margin-top: 64px;
+      }
+
+      .integration {
+        min-height: 250px;
+        padding: 34px;
+      }
+
+      .integration span {
+        color: #f8d65f;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 23px;
+        text-transform: uppercase;
+      }
+
+      .integration h2 {
+        margin-top: 18px;
+        font-size: 58px;
+      }
+
+      .integration p {
+        margin-top: 16px;
+        color: #a8bcc0;
+        font-size: 27px;
+        line-height: 1.32;
+      }
+
+      .final-title {
+        width: 1350px;
+        margin-top: 120px;
+        font-size: 118px;
+      }
+
+      .final-line {
+        width: 1120px;
+        margin-top: 42px;
+        color: #a8bcc0;
+        font-size: 38px;
+        line-height: 1.28;
+      }
+
+      .badge-row {
+        position: absolute;
+        left: 96px;
+        bottom: 88px;
+        display: flex;
+        gap: 18px;
+      }
+
+      .badge {
+        border: 1px solid rgba(117, 255, 218, 0.65);
+        border-radius: 999px;
+        padding: 16px 22px;
+        color: #75ffda;
+        background: rgba(117, 255, 218, 0.08);
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 23px;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="32"
+      data-width="1920"
+      data-height="1080"
+    >
+      <section
+        id="scene-hero"
+        class="clip scene"
+        data-start="0"
+        data-duration="6"
+        data-track-index="1"
+      >
+        <span class="eyebrow">Sui Overflow 2026 / Agentic Web</span>
+        <h1 class="display hero-title">Autonomous Meme Civilization</h1>
+        <p class="hero-copy">
+          Every meme becomes a living onchain civilization: thinking, recruiting, evolving, and
+          fighting for influence.
+        </p>
+        <p class="subtitle">An AI civilization simulator for meme-native communities</p>
+        <div class="planet">
+          <div class="node">$CANDLE</div>
+          <div class="node">$MEOW</div>
+          <div class="node">$BARK</div>
+        </div>
+      </section>
+
+      <section
+        id="scene-loop"
+        class="clip scene"
+        data-start="6"
+        data-duration="7"
+        data-track-index="2"
+      >
+        <span class="eyebrow">Core loop</span>
+        <h2 class="display hero-title">Create. Influence. Watch it evolve.</h2>
+        <div class="loop-grid">
+          <article class="panel loop-card">
+            <strong>01 / Prompt</strong>
+            <h2 class="display">Birth a faction</h2>
+            <p>
+              A simple meme prompt becomes a name, symbol, lore, slogan, colors, and personality.
+            </p>
+          </article>
+          <article class="panel loop-card">
+            <strong>02 / Autonomy</strong>
+            <h2 class="display">AI takes action</h2>
+            <p>
+              Factions spread propaganda, recruit followers, form alliances, betray rivals, and
+              attack.
+            </p>
+          </article>
+          <article class="panel loop-card">
+            <strong>03 / Community</strong>
+            <h2 class="display">The crowd steers</h2>
+            <p>Votes and support tilt aggression, mood, priorities, wars, and world chaos.</p>
+          </article>
+        </div>
+      </section>
+
+      <section
+        id="scene-world"
+        class="clip scene"
+        data-start="13"
+        data-duration="7"
+        data-track-index="3"
+      >
+        <span class="eyebrow">Realtime world</span>
+        <h2 class="display hero-title">A living arena, not a static token page.</h2>
+        <div class="world-layout">
+          <div class="map">
+            <div class="map-token candle">$CANDLE</div>
+            <div class="map-token meow">$MEOW</div>
+            <div class="map-token bark">$BARK</div>
+          </div>
+          <div class="panel feed">
+            <div class="event">
+              <span>PROPAGANDA</span>
+              <h3>Green Candle Cult spreads a prophecy</h3>
+              <p>Red candles are declared a weakness of spirit.</p>
+            </div>
+            <div class="event">
+              <span>ALLIANCE</span>
+              <h3>Cat Empire signs a soft treaty</h3>
+              <p>Dog Kingdom accepts in exchange for influence.</p>
+            </div>
+            <div class="event">
+              <span>WAR</span>
+              <h3>Meme war begins</h3>
+              <p>Followers, treasury, support, and chaos decide the result.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="scene-war"
+        class="clip scene"
+        data-start="20"
+        data-duration="5"
+        data-track-index="4"
+      >
+        <span class="eyebrow">Meme war engine</span>
+        <h2 class="display hero-title">Civilizations compete for narrative dominance.</h2>
+        <div class="war-board">
+          <article class="panel combatant">
+            <h2 class="display">$CANDLE</h2>
+            <p>Chaotic, greedy, poetic. Community support boosts aggression.</p>
+            <strong class="score">742</strong>
+          </article>
+          <strong class="display versus">VS</strong>
+          <article class="panel combatant">
+            <h2 class="display">$MEOW</h2>
+            <p>Diplomatic, paranoid, treasury-rich. Alliance density reduces risk.</p>
+            <strong class="score">689</strong>
+          </article>
+        </div>
+      </section>
+
+      <section
+        id="scene-chain"
+        class="clip scene"
+        data-start="25"
+        data-duration="4"
+        data-track-index="5"
+      >
+        <span class="eyebrow">Onchain autonomous systems</span>
+        <h2 class="display hero-title">Sui stores the civilization layer.</h2>
+        <div class="stack">
+          <article class="panel integration">
+            <span>Sui Objects</span>
+            <h2 class="display">Civilization, event, alliance, war</h2>
+            <p>Identity and world history become composable onchain objects.</p>
+          </article>
+          <article class="panel integration">
+            <span>Walrus Memory</span>
+            <h2 class="display">Lore, propaganda, history</h2>
+            <p>Large AI-generated content is stored as referenced memory.</p>
+          </article>
+        </div>
+      </section>
+
+      <section
+        id="scene-final"
+        class="clip scene"
+        data-start="29"
+        data-duration="3"
+        data-track-index="6"
+      >
+        <span class="eyebrow">Final positioning</span>
+        <h2 class="display final-title">Not a launchpad. Not a chat app.</h2>
+        <p class="final-line">
+          An autonomous AI civilization simulator where memes evolve into living onchain species.
+        </p>
+        <div class="badge-row">
+          <span class="badge">Agentic Web</span>
+          <span class="badge">Consumer AI</span>
+          <span class="badge">Gaming</span>
+          <span class="badge">Sui</span>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      tl.set("#scene-hero", { autoAlpha: 1 }, 0);
+      tl.from("#scene-hero .eyebrow", { opacity: 0, y: 26, duration: 0.65 }, 0);
+      tl.from("#scene-hero .hero-title", { opacity: 0, y: 64, duration: 0.9 }, 0.3);
+      tl.from("#scene-hero .hero-copy", { opacity: 0, y: 34, duration: 0.7 }, 0.82);
+      tl.from("#scene-hero .planet", { opacity: 0, scale: 0.82, duration: 1.1 }, 0.55);
+      tl.from("#scene-hero .node", { opacity: 0, scale: 0.6, stagger: 0.14, duration: 0.55 }, 1.2);
+      tl.to("#scene-hero .planet", { rotation: 18, duration: 5.2, ease: "none" }, 0.75);
+      tl.to("#scene-hero", { autoAlpha: 0, duration: 0.45 }, 5.55);
+      tl.set("#scene-hero", { autoAlpha: 0 }, 6);
+
+      tl.set("#scene-loop", { autoAlpha: 1 }, 6);
+      tl.from("#scene-loop .eyebrow", { opacity: 0, y: 24, duration: 0.45 }, 6);
+      tl.from("#scene-loop .hero-title", { opacity: 0, y: 52, duration: 0.75 }, 6.2);
+      tl.from("#scene-loop .loop-card", { opacity: 0, y: 70, stagger: 0.18, duration: 0.7 }, 6.8);
+      tl.to(
+        "#scene-loop .loop-card",
+        { y: -14, stagger: 0.14, duration: 1.3, yoyo: true, repeat: 2 },
+        8.8,
+      );
+      tl.to("#scene-loop", { autoAlpha: 0, duration: 0.45 }, 12.55);
+      tl.set("#scene-loop", { autoAlpha: 0 }, 13);
+
+      tl.set("#scene-world", { autoAlpha: 1 }, 13);
+      tl.from("#scene-world .eyebrow", { opacity: 0, y: 24, duration: 0.45 }, 13);
+      tl.from("#scene-world .hero-title", { opacity: 0, y: 52, duration: 0.75 }, 13.2);
+      tl.from("#scene-world .map", { opacity: 0, x: -90, duration: 0.8 }, 13.75);
+      tl.from("#scene-world .feed", { opacity: 0, x: 90, duration: 0.8 }, 13.9);
+      tl.from(
+        "#scene-world .map-token",
+        { opacity: 0, scale: 0.65, stagger: 0.18, duration: 0.55 },
+        14.4,
+      );
+      tl.from("#scene-world .event", { opacity: 0, y: 42, stagger: 0.22, duration: 0.55 }, 14.7);
+      tl.to(
+        "#scene-world .map-token",
+        { y: -22, stagger: 0.16, yoyo: true, repeat: 3, duration: 0.75 },
+        16.2,
+      );
+      tl.to("#scene-world", { autoAlpha: 0, duration: 0.45 }, 19.55);
+      tl.set("#scene-world", { autoAlpha: 0 }, 20);
+
+      tl.set("#scene-war", { autoAlpha: 1 }, 20);
+      tl.from("#scene-war .eyebrow", { opacity: 0, y: 24, duration: 0.45 }, 20);
+      tl.from("#scene-war .hero-title", { opacity: 0, y: 52, duration: 0.7 }, 20.18);
+      tl.from(
+        "#scene-war .combatant",
+        { opacity: 0, scale: 0.9, stagger: 0.2, duration: 0.65 },
+        20.85,
+      );
+      tl.from("#scene-war .versus", { opacity: 0, scale: 2.1, duration: 0.35 }, 21.35);
+      tl.to("#scene-war .score", { color: "#f8d65f", duration: 0.35, yoyo: true, repeat: 5 }, 21.9);
+      tl.to("#scene-war", { autoAlpha: 0, duration: 0.45 }, 24.55);
+      tl.set("#scene-war", { autoAlpha: 0 }, 25);
+
+      tl.set("#scene-chain", { autoAlpha: 1 }, 25);
+      tl.from("#scene-chain .eyebrow", { opacity: 0, y: 24, duration: 0.45 }, 25);
+      tl.from("#scene-chain .hero-title", { opacity: 0, y: 52, duration: 0.7 }, 25.2);
+      tl.from(
+        "#scene-chain .integration",
+        { opacity: 0, y: 68, stagger: 0.18, duration: 0.7 },
+        25.85,
+      );
+      tl.to("#scene-chain", { autoAlpha: 0, duration: 0.4 }, 28.65);
+      tl.set("#scene-chain", { autoAlpha: 0 }, 29);
+
+      tl.set("#scene-final", { autoAlpha: 1 }, 29);
+      tl.from("#scene-final .eyebrow", { opacity: 0, y: 24, duration: 0.35 }, 29);
+      tl.from("#scene-final .final-title", { opacity: 0, y: 60, duration: 0.62 }, 29.18);
+      tl.from("#scene-final .final-line", { opacity: 0, y: 34, duration: 0.55 }, 29.76);
+      tl.from("#scene-final .badge", { opacity: 0, y: 28, stagger: 0.1, duration: 0.45 }, 30.35);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
