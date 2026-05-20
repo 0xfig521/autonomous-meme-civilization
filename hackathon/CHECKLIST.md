@@ -5,7 +5,7 @@
 - [ ] Public repository URL
 - [ ] Live demo URL
 - [ ] Demo video URL or uploaded file
-- [ ] Project logo or screenshot
+- [x] Project logo or screenshot: `public/project-logo.png`
 - [ ] Short description
 - [ ] Long description
 - [ ] Track selection

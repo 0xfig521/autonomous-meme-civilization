@@ -1,5 +1,7 @@
 # Autonomous Meme Civilization
 
+![Autonomous Meme Civilization logo](public/project-logo.png)
+
 自治迷因文明（Autonomous Meme Civilization）是一个为 Sui Overflow 2026 构建的 AI 原生链上文明模拟器。它将迷因阵营转化为自治文明：可以生成身份、招募追随者、传播叙事、结盟、发动战争，并持续更新共享的实时世界状态。
 
 这不是迷因发射台，不是代币交易产品，也不是 AI 聊天应用。产品定位是：

@@ -59,14 +59,14 @@ A **AI-native onchain civilization simulator** where:
 
 ## Slide 5: Key Features
 
-| Feature | Description |
-|---------|-------------|
-| **AI Identity Generation** | Name, symbol, slogan, lore, personality, colors |
+| Feature                      | Description                                                 |
+| ---------------------------- | ----------------------------------------------------------- |
+| **AI Identity Generation**   | Name, symbol, slogan, lore, personality, colors             |
 | **Autonomous Behavior Loop** | Civs create propaganda, recruit, form alliances, start wars |
-| **Real-time World Map** | Influence density, alliance heatmap, war frequency |
-| **Meme War Simulation** | Followers + influence + treasury + randomness |
-| **Sui Onchain Objects** | MemeCivilization, Alliance, MemeWar |
-| **Walrus Metadata** | Civilization data stored in Walrus blobs |
+| **Real-time World Map**      | Influence density, alliance heatmap, war frequency          |
+| **Meme War Simulation**      | Followers + influence + treasury + randomness               |
+| **Sui Onchain Objects**      | MemeCivilization, Alliance, MemeWar                         |
+| **Walrus Metadata**          | Civilization data stored in Walrus blobs                    |
 
 ---
 
@@ -115,12 +115,12 @@ Publish digest: BxiJbSsCPPrbyWehutdn5pNiEVnhryELZYM2GoKhpsxb
 
 ### Transaction Types
 
-| Function | Purpose |
-|----------|---------|
+| Function              | Purpose                          |
+| --------------------- | -------------------------------- |
 | `create_civilization` | Mint new MemeCivilization object |
-| `record_event` | Log civilization events |
-| `form_alliance` | Create Alliance between two civs |
-| `record_war` | Record MemeWar outcome |
+| `record_event`        | Log civilization events          |
+| `form_alliance`       | Create Alliance between two civs |
+| `record_war`          | Record MemeWar outcome           |
 
 ---
 
@@ -130,16 +130,17 @@ Publish digest: BxiJbSsCPPrbyWehutdn5pNiEVnhryELZYM2GoKhpsxb
 
 ```typescript
 interface CivilizationWalrusData {
-  name: string;       // "Green Candle Cult"
-  symbol: string;     // "GCC"
-  slogan: string;     // "Light the path"
-  lore: string;       // 500+ word backstory
+  name: string; // "Green Candle Cult"
+  symbol: string; // "GCC"
+  slogan: string; // "Light the path"
+  lore: string; // 500+ word backstory
   personality: string[]; // ["chaotic", "poetic"]
   colors: [string, string]; // ["#00ff00", "#1a1a1a"]
 }
 ```
 
 **Workflow:**
+
 1. Generate civ data → Upload to Walrus → Get blobId
 2. Store blobId as `walrus_ref` on Sui
 3. Read blob on demand for detailed info
@@ -152,19 +153,26 @@ interface CivilizationWalrusData {
 
 ```typescript
 const behaviorCycle = () => {
-  civilizations.forEach(civ => {
+  civilizations.forEach((civ) => {
     const action = chooseAction(civ); // based on mood, aggression
-    
-    switch(action) {
-      case 'PROPAGANDA': spreadNarrative(civ);
-      case 'RECRUIT': gainFollowers(civ);
-      case 'ALLIANCE': seekAlliance(civ);
-      case 'ATTACK': startWar(civ);
-      case 'RITUAL': performRitual(civ);
-      case 'EVOLUTION': levelUp(civ);
-      case 'BETRAY': breakAlliance(civ);
+
+    switch (action) {
+      case "PROPAGANDA":
+        spreadNarrative(civ);
+      case "RECRUIT":
+        gainFollowers(civ);
+      case "ALLIANCE":
+        seekAlliance(civ);
+      case "ATTACK":
+        startWar(civ);
+      case "RITUAL":
+        performRitual(civ);
+      case "EVOLUTION":
+        levelUp(civ);
+      case "BETRAY":
+        breakAlliance(civ);
     }
-    
+
     updateWorldState();
   });
 };
@@ -211,12 +219,12 @@ const behaviorCycle = () => {
 
 ## Slide 12: Competition & Differentiation
 
-| Project | Type | Autonomous? | Onchain? |
-|---------|------|-------------|----------|
-| Doge/Shib | Static meme coin | ❌ | ❌ |
-| AI DAOs | Governance only | Partial | ❌ |
-| EVE Frontier | Game modding | ❌ | Sui |
-| **Autonomous Meme Civilization** | AI simulation | **✅ Full autonomy** | **✅ Sui objects** |
+| Project                          | Type             | Autonomous?          | Onchain?           |
+| -------------------------------- | ---------------- | -------------------- | ------------------ |
+| Doge/Shib                        | Static meme coin | ❌                   | ❌                 |
+| AI DAOs                          | Governance only  | Partial              | ❌                 |
+| EVE Frontier                     | Game modding     | ❌                   | Sui                |
+| **Autonomous Meme Civilization** | AI simulation    | **✅ Full autonomy** | **✅ Sui objects** |
 
 ---
 

@@ -113,11 +113,11 @@ public struct MemeCivilization has key, store {
 
 ```typescript
 interface CivilizationWalrusData {
-  name: string;           // e.g., "Green Candle Cult"
-  symbol: string;         // e.g., "GCC"
-  slogan: string;         // e.g., "Light the path to memetic enlightenment"
-  lore: string;           // 500+ word backstory
-  personality: string[];  // ["chaotic", "greedy", "poetic"]
+  name: string; // e.g., "Green Candle Cult"
+  symbol: string; // e.g., "GCC"
+  slogan: string; // e.g., "Light the path to memetic enlightenment"
+  lore: string; // 500+ word backstory
+  personality: string[]; // ["chaotic", "greedy", "poetic"]
   colors: [string, string]; // Primary and secondary colors
 }
 ```
@@ -139,7 +139,7 @@ interface Civilization {
   aggression: number;
   stability: number;
   level: number;
-  mood: Mood;            // hungry | euphoric | paranoid | ritualistic | vengeful
+  mood: Mood; // hungry | euphoric | paranoid | ritualistic | vengeful
   suiObjectId?: string;
   walrusRef: string;
   createdAt: number;
@@ -153,14 +153,14 @@ interface Civilization {
 ```typescript
 // Runs every 3 seconds
 const simulationInterval = setInterval(() => {
-  setCivilizations(prev => {
-    return prev.map(civ => {
+  setCivilizations((prev) => {
+    return prev.map((civ) => {
       const action = selectAction(civ);
       const result = executeAction(civ, action);
       return { ...civ, ...result.updates };
     });
   });
-  setEvents(prev => [...prev, ...newEvents]);
+  setEvents((prev) => [...prev, ...newEvents]);
   updateWorldState();
 }, 3000);
 ```
@@ -170,7 +170,7 @@ const simulationInterval = setInterval(() => {
 ```typescript
 export function buildCreateCivilizationTransaction(input: CivilizationMintInput) {
   const tx = new Transaction();
-  
+
   tx.moveCall({
     target: `${suiPackageId}::civilization::create_civilization`,
     arguments: [
@@ -178,14 +178,14 @@ export function buildCreateCivilizationTransaction(input: CivilizationMintInput)
       tx.pure.string(input.symbol),
       tx.pure.u8(input.aggression),
       tx.pure.u8(input.stability),
-      tx.pure.vector('u8', textEncoder.encode(input.lore)),
-      tx.pure.vector('u8', textEncoder.encode(input.walrusRef)),
-      tx.object('0x6'), // Clock object
+      tx.pure.vector("u8", textEncoder.encode(input.lore)),
+      tx.pure.vector("u8", textEncoder.encode(input.walrusRef)),
+      tx.object("0x6"), // Clock object
     ],
   });
-  
+
   tx.transferObjects([tx.object(result)], tx.pure.address(input.recipient));
-  
+
   return tx;
 }
 ```
@@ -196,22 +196,22 @@ export function buildCreateCivilizationTransaction(input: CivilizationMintInput)
 export function useWalrusUpload() {
   const upload = async (data: CivilizationWalrusData, signer: Signer) => {
     const { client, WalrusFile } = await getClient();
-    
+
     const file = WalrusFile.from({
       contents: new TextEncoder().encode(JSON.stringify(data)),
       identifier: `${data.name.toLowerCase()}.json`,
     });
-    
+
     const results = await client.walrus.writeFiles({
       files: [file],
       epochs: 3,
       deletable: true,
       signer,
     });
-    
+
     return results[0].blobId;
   };
-  
+
   return { upload, ... };
 }
 ```
@@ -222,21 +222,21 @@ export function useWalrusUpload() {
 // Wallet SDK is NOT loaded on initial page load
 export function LazyWalletProvider({ children }) {
   const [isReady, setIsReady] = useState(false);
-  
+
   const activate = async () => {
     const walletModule = await import("@mysten/dapp-kit-react");
     const { SuiGrpcClient } = await import("@mysten/sui/grpc");
-    
+
     const dAppKit = walletModule.createDAppKit({
       networks: ["testnet", "mainnet"],
       defaultNetwork: "testnet",
       createClient: (network) => new SuiGrpcClient({ network }),
     });
-    
+
     setIsReady(true);
     setLoadedState({ module: walletModule, dAppKit });
   };
-  
+
   // Stub context until activated
   return (
     <WalletContext.Provider value={{ isReady, activate, ... }}>

@@ -1,5 +1,7 @@
 # Autonomous Meme Civilization
 
+![Autonomous Meme Civilization logo](public/project-logo.png)
+
 ## English
 
 Autonomous Meme Civilization is an AI-native onchain civilization simulator built for Sui Overflow 2026. It turns meme factions into autonomous civilizations that create identity, recruit followers, spread propaganda, form alliances, start wars, and update a shared realtime world state.

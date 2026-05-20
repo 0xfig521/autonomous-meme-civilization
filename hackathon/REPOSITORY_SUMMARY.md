@@ -2,13 +2,13 @@
 
 ## Quick Links
 
-| Resource | URL/ID |
-|----------|--------|
-| **GitHub Repository** | [Add your repo URL] |
+| Resource               | URL/ID                                                               |
+| ---------------------- | -------------------------------------------------------------------- |
+| **GitHub Repository**  | [Add your repo URL]                                                  |
 | **Testnet Package ID** | `0x2ec7c48394ca315f70e5a4b17f4fa667ecf29dbeaba26330d26bc7be24c58f9b` |
-| **Publish Digest** | `BxiJbSsCPPrbyWehutdn5pNiEVnhryELZYM2GoKhpsxb` |
-| **Network** | Sui Testnet |
-| **Dev Server** | `http://localhost:5175/` |
+| **Publish Digest**     | `BxiJbSsCPPrbyWehutdn5pNiEVnhryELZYM2GoKhpsxb`                       |
+| **Network**            | Sui Testnet                                                          |
+| **Dev Server**         | `http://localhost:5175/`                                             |
 
 ---
 
@@ -95,13 +95,13 @@ module autonomous_meme_civilization::civilization;
 
 **File**: `src/chain.ts`
 
-| Function | Purpose | Lines |
-|----------|---------|-------|
-| `buildCreateCivilizationTransaction` | Mint MemeCivilization object | 45-78 |
-| `buildFormAllianceTransaction` | Create Alliance object | 80-105 |
-| `buildRecordWarTransaction` | Record MemeWar outcome | 107-140 |
-| `buildRecordEventTransaction` | Log civilization events | 142-165 |
-| `extractCreatedObjectId` | Extract object ID from result | 167-180 |
+| Function                             | Purpose                       | Lines   |
+| ------------------------------------ | ----------------------------- | ------- |
+| `buildCreateCivilizationTransaction` | Mint MemeCivilization object  | 45-78   |
+| `buildFormAllianceTransaction`       | Create Alliance object        | 80-105  |
+| `buildRecordWarTransaction`          | Record MemeWar outcome        | 107-140 |
+| `buildRecordEventTransaction`        | Log civilization events       | 142-165 |
+| `extractCreatedObjectId`             | Extract object ID from result | 167-180 |
 
 ### 3. Wallet Integration
 
@@ -170,13 +170,13 @@ vp run move:publish
 
 ### Production Build (dist/)
 
-| File | Size | Gzip | Purpose |
-|------|------|------|---------|
-| `index-*.js` | 510.66 KB | 149 KB | Main bundle |
-| `grpc-*.js` | 157.62 KB | 38 KB | SuiGrpcClient (lazy) |
-| `WalletProvider-*.js` | 0.70 KB | 0.4 KB | Wallet SDK (lazy) |
-| `walrus_wasm_bg-*.wasm` | 358.18 KB | 187 KB | Walrus WASM |
-| `index-*.css` | 17.91 KB | 4.5 KB | Styles |
+| File                    | Size      | Gzip   | Purpose              |
+| ----------------------- | --------- | ------ | -------------------- |
+| `index-*.js`            | 510.66 KB | 149 KB | Main bundle          |
+| `grpc-*.js`             | 157.62 KB | 38 KB  | SuiGrpcClient (lazy) |
+| `WalletProvider-*.js`   | 0.70 KB   | 0.4 KB | Wallet SDK (lazy)    |
+| `walrus_wasm_bg-*.wasm` | 358.18 KB | 187 KB | Walrus WASM          |
+| `index-*.css`           | 17.91 KB  | 4.5 KB | Styles               |
 
 ### Optimization Techniques
 
@@ -199,16 +199,17 @@ Published By: [Your wallet address]
 
 ### Object Types
 
-| Type | Abilities | Description |
-|------|-----------|-------------|
-| `MemeCivilization` | key, store | Civilization object |
-| `CivilizationEvent` | key, store | Event log |
-| `Alliance` | key, store | Alliance record |
-| `MemeWar` | key, store | War outcome |
+| Type                | Abilities  | Description         |
+| ------------------- | ---------- | ------------------- |
+| `MemeCivilization`  | key, store | Civilization object |
+| `CivilizationEvent` | key, store | Event log           |
+| `Alliance`          | key, store | Alliance record     |
+| `MemeWar`           | key, store | War outcome         |
 
 ### Transaction Examples
 
 **Create Civilization:**
+
 ```
 Transaction Kind: MoveCall
 Package: 0x2ec7c...9b
@@ -277,8 +278,8 @@ VITE_WALRUS_PUBLISHER=your_publisher_id
 
 - [x] Move contract (autonomous_meme_civilization.move)
 - [x] Transaction builders (chain.ts)
-- [x] Wallet integration (wallet/*)
-- [x] Walrus integration (composables/*)
+- [x] Wallet integration (wallet/\*)
+- [x] Walrus integration (composables/\*)
 - [x] Tests passing (5/5)
 - [x] Build successful
 - [x] Testnet deployment
